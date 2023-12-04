@@ -16,6 +16,13 @@ const Profile = () => {
   });
   const { name, email, lastName, location } = userData;
 
+  const handleChange = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
+
+    setUserData({ ...userData, [name]: value });
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -25,13 +32,6 @@ const Profile = () => {
     }
 
     dispatch(updateUser({ name, email, lastName, location }));
-  };
-
-  const handleChange = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
-
-    setUserData({ ...userData, [name]: value });
   };
 
   return (

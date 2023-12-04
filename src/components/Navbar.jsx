@@ -11,7 +11,7 @@ const Navbar = () => {
   const [showLogout, setShowLogout] = useState(false);
 
   const toggle = () => dispatch(toggleSidebar());
-  const logout = () => dispatch(logoutUser());
+  const logout = () => dispatch(logoutUser("Logging Out..."));
 
   return (
     <Wrapper>
