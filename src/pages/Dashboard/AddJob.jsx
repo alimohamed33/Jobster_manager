@@ -4,8 +4,9 @@ import { toast } from "react-toastify";
 import { FormRow, FormRowSelect } from "../../components";
 import {
   clearValues,
-  createJob,
   handleChange,
+  createJob,
+  editJob,
 } from "../../features/job/jobSlice";
 import { useEffect } from "react";
 
@@ -39,11 +40,22 @@ const AddJob = () => {
       return;
     }
 
-    dispatch(createJob({ position, company, jobLocation, status, jobType }));
+    if (isEditing) {
+      dispatch(
+        editJob({
+          jobID: editJobId,
+          job: { position, company, jobLocation, jobType, status },
+        })
+      );
+    } else if (!isEditing) {
+      dispatch(createJob({ position, company, jobLocation, status, jobType }));
+    }
   };
 
   useEffect(() => {
-    dispatch(handleChange({ name: "jobLocation", value: user?.location }));
+    if (!isEditing) {
+      dispatch(handleChange({ name: "jobLocation", value: user?.location }));
+    }
   }, []);
 
   return (
