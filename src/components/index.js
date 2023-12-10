@@ -7,6 +7,9 @@ import Navbar from "./Navbar";
 import NavLinks from "./NavLinks";
 import JobsContainer from "./JobsContainer";
 import SearchContainer from "./SearchContainer";
+import Loading from "./Loading";
+import StatsContainer from "./StatsContainer";
+import ChartsContainer from "./ChartsContainer";
 
 export {
   Logo,
@@ -18,4 +21,7 @@ export {
   NavLinks,
   JobsContainer,
   SearchContainer,
+  Loading,
+  ChartsContainer,
+  StatsContainer,
 };
