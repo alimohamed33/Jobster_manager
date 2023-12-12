@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { showState } from "../../features/allJobs/allJobsSlice";
+import { showStats } from "../../features/allJobs/allJobsSlice";
 import { Loading, StatsContainer, ChartsContainer } from "../../components";
 
 const Status = () => {
@@ -10,7 +10,7 @@ const Status = () => {
   );
 
   useEffect(() => {
-    dispatch(showState());
+    dispatch(showStats());
   }, []);
 
   if (isLoading) return <Loading center />;

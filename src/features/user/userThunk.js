@@ -1,33 +1,43 @@
-import { customFetch } from "../../utils/axios";
+import { checkForUnauthorizedResponse, customFetch } from "../../utils/axios";
+import { clearAllJobsState } from "../allJobs/allJobsSlice";
+import { clearValues } from "../job/jobSlice";
 import { logoutUser } from "./userSlice";
 
-export const registerUserThunk = async (url, user, thunkAPI) => {
+export const registerUserThunk = async (user, thunkAPI) => {
   try {
-    const response = await customFetch.post(url, user);
+    const response = await customFetch.post("/auth/register", user);
+    return response.data;
+  } catch (error) {
+    return checkForUnauthorizedResponse(error, thunkAPI);
+  }
+};
+
+export const loginUserThunk = async (user, thunkAPI) => {
+  try {
+    const response = await customFetch.post("/auth/login", user);
     return response.data;
   } catch (error) {
     return thunkAPI.rejectWithValue(error.response.data.msg);
   }
 };
 
-export const loginUserThunk = async (url, user, thunkAPI) => {
+export const updateUserThunk = async (user, thunkAPI) => {
   try {
-    const response = await customFetch.post(url, user);
+    const response = await customFetch.patch("/auth/updateUser", user);
     return response.data;
   } catch (error) {
-    return thunkAPI.rejectWithValue(error.response.data.msg);
+    return checkForUnauthorizedResponse(error, thunkAPI);
   }
 };
 
-export const updateUserThunk = async (url, user, thunkAPI) => {
+export const clearStoreThunk = async (message, thunkAPI) => {
   try {
-    const response = await customFetch.patch(url, user);
-    return response.data;
+    thunkAPI.dispatch(logoutUser(message));
+    thunkAPI.dispatch(clearAllJobsState());
+    thunkAPI.dispatch(clearValues());
+
+    return Promise.resolve();
   } catch (error) {
-    if (error.response.status === 401) {
-      thunkAPI.dispatch(logoutUser());
-      return thunkAPI.rejectWithValue("Unauthorized! Logging out...");
-    }
-    return thunkAPI.rejectWithValue(error.response.data.msg);
+    return Promise.reject();
   }
 };
